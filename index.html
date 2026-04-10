@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FTI Spectrum Matrix v31 · CFA Institute RAS · April 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a1a;padding:2rem;font-size:13px}
+.mx-meta{font-size:11px;color:#888;margin-bottom:4px}
+.mx-hint{font-size:11px;color:#aaa;font-style:italic;margin-bottom:12px}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+th{padding:10px 10px 8px;text-align:left;border-bottom:1px solid #ddd;background:#f8f8f6;vertical-align:bottom}
+td{padding:9px 10px 8px;vertical-align:top;border-bottom:0.5px solid #eee;border-right:0.5px solid #eee;cursor:pointer;transition:background 0.1s}
+td:last-child,th:last-child{border-right:none}
+tr:last-child td{border-bottom:none}
+td:hover{box-shadow:inset 0 0 0 1.5px #333}
+.step-col{width:130px;background:#f8f8f6!important;cursor:default!important}
+.step-col:hover{box-shadow:none!important}
+.sn{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.sd{font-size:10px;color:#999;line-height:1.4}
+.ct{font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.4;margin-bottom:2px}
+.cs{font-size:11px;color:#666;line-height:1.4;margin-bottom:5px}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block;cursor:default}
+.dot-gap{border:1.5px dashed}
+.dot-sep{width:1px;height:10px;background:#ddd;margin:0 2px;flex-shrink:0}
+.col-h{font-size:11px;font-weight:600}
+.col-s{font-size:10px;color:#999;margin-top:2px}
+.leg{margin:14px 0 0;padding:12px 14px;background:#f8f8f6;border-radius:8px;border:0.5px solid #e0e0e0}
+.leg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 20px}
+.leg-group{display:flex;flex-direction:column;gap:4px}
+.leg-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:2px}
+.leg-row{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.fn{font-size:11px;color:#888;margin-top:10px;line-height:1.6;padding-top:10px;border-top:0.5px solid #eee}
+
+/* Popover */
+.pop{display:none;position:fixed;z-index:9999;background:#fff;border:0.5px solid #bbb;border-radius:10px;padding:14px 16px;width:320px;font-size:12px;line-height:1.5;max-height:78vh;overflow-y:auto;box-shadow:0 4px 20px rgba(0,0,0,0.12)}
+.pop.show{display:block}
+.pc{float:right;cursor:pointer;color:#aaa;font-size:16px;margin-left:8px;line-height:1}
+
+/* Popover blocks — all use the same neutral background; dot carries the meaning */
+.pblock{display:flex;gap:8px;align-items:flex-start;background:#f8f8f6;border-radius:5px;padding:7px 8px;margin-bottom:6px}
+.pblock:last-child{margin-bottom:0}
+.pblock-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.pblock-dot-gap{border:1.5px dashed;background:transparent}
+.pblock-body{flex:1;min-width:0}
+.pblock-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#888;margin-bottom:3px}
+.pblock-quote{font-style:italic;color:#555;border-left:2px solid #ddd;padding-left:7px;margin-bottom:2px;font-size:11px}
+.pblock-speaker{font-size:10px;color:#aaa;margin-bottom:4px}
+.pblock-text{font-size:11px;color:#555;line-height:1.5}
+
+/* Tools section — no dot, plain heading */
+.ptools-head{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#aaa;margin:8px 0 4px}
+.ptool-group{margin-bottom:8px}
+.ptool-group-label{font-size:10px;font-weight:600;color:#888;margin-bottom:4px;padding:2px 6px;background:#f1efe8;border-radius:3px;display:inline-block}
+.ptool-group-label.g-now{background:#EAF3DE;color:#27500A}
+.ptool-group-label.g-once{background:#E6F1FB;color:#0C447C}
+.ptool-group-label.g-alt{background:#FAEEDA;color:#633806}
+.ptool-group-label.g-gap{background:#FAECE7;color:#993C1D}
+.ptool{padding-bottom:5px;margin-bottom:5px;border-bottom:0.5px solid #eee}
+.ptool:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ptn{font-weight:600;color:#1a1a1a;font-size:12px}
+.av{font-size:10px;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle}
+.av-n{background:#EAF3DE;color:#27500A}
+.av-ce{background:#E6F1FB;color:#0C447C}
+.av-g{background:#E6F1FB;color:#0C447C}
+.av-p{background:#FAEEDA;color:#633806}
+.av-l{background:#f1efe8;color:#444}
+.av-b{background:#f1efe8;color:#444}
+.av-j{background:#f1efe8;color:#444}
+.ptool-desc{font-size:11px;color:#666;margin-top:2px}
+.ptool-proc{font-size:10px;color:#999;margin-top:2px;font-style:italic}
+</style>
+</head>
+<body>
+
+<p class="mx-meta">FTI system: technology options by process step · CFA Institute RAS · April 2026 · v31</p>
+<p class="mx-hint">Click any cell for sourcing, tools, and tracker notes · Hover dots for labels</p>
+
+<table id="mtx">
+<colgroup>
+<col style="width:130px">
+<col style="width:18%">
+<col style="width:18%">
+<col style="width:18%">
+<col style="width:18%">
+</colgroup>
+<thead>
+<tr>
+<th class="step-col"></th>
+<th><div class="col-h" style="color:#5F5E5A">Current baseline</div><div class="col-s">March 2026 pilot</div></th>
+<th><div class="col-h" style="color:#185FA5">Near-term MVP</div><div class="col-s">Low investment · by Sept 2026</div></th>
+<th><div class="col-h" style="color:#854F0B">Medium-term</div><div class="col-s">Moderate investment · 6–18 months</div></th>
+<th><div class="col-h" style="color:#3B6D11">AI-enabled end state</div><div class="col-s">Full AI + human intelligence vision</div></th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+
+<div class="leg" id="leg"></div>
+
+<p class="fn">Baseline column requires no new investment. Near-term MVP options are largely achievable within existing Microsoft 365, Claude Team plan, Qualtrics, and ChatGPT Enterprise. Macro Foresight is the most significant organizational investment in the matrix — staffing-first, not technology-first. Medium-term and end-state columns require deliberate resourcing decisions.</p>
+
+<div class="pop" id="pop"><span class="pc" id="pclose">✕</span><div id="pinner"></div></div>
+
+<script>
+const DOT={
+  src_direct:{bg:"#378ADD",title:"Source: direct quote"},
+  src_infer:{bg:"#85B7EB",title:"Source: inferred"},
+  src_extrap:{bg:"#B5D4F4",title:"Source: extrapolated"},
+  mh_lo:{bg:"#FAC775",title:"Man hours: minimal"},
+  mh_md:{bg:"#EF9F27",title:"Man hours: moderate"},
+  mh_hi:{bg:"#B45309",title:"Man hours: significant"},
+  in_lo:{bg:"#9FE1CB",title:"Infrastructure: minimal"},
+  in_md:{bg:"#1D9E75",title:"Infrastructure: moderate"},
+  in_hi:{bg:"#085041",title:"Infrastructure: significant"},
+  st_lo:{bg:"#F5C4B3",title:"Staffing: minimal"},
+  st_md:{bg:"#D85A30",title:"Staffing: moderate"},
+  st_hi:{bg:"#8B0000",title:"Staffing: significant"},
+  fti_core:{bg:"#7F77DD",title:"FTI core — Setting Up The FTI Process (Adi Thakur)"},
+  fti_ext:{bg:"#CECBF6",title:"FTI extended — Additional Capabilities to FTI (Adi Thakur)"},
+  inprog:{bg:"#FFFFFF",title:"In progress"},
+  trk:{bg:"#888780",title:"In JPD tracker"},
+  gap:{bg:"transparent",border:"#888780",dash:true,title:"Tracker gap — item not yet in JPD"},
+  rel:{bg:"#5C5EA8",title:"Related Jira / Confluence item"},
+};
+
+const LEG_GROUPS=[
+  {title:"Source confidence",items:[{key:"src_direct",label:"Direct quote"},{key:"src_infer",label:"Inferred"},{key:"src_extrap",label:"Extrapolated"}]},
+  {title:"Man hours",items:[{key:"mh_lo",label:"Minimal"},{key:"mh_md",label:"Moderate"},{key:"mh_hi",label:"Significant"}]},
+  {title:"Infrastructure",items:[{key:"in_lo",label:"Minimal"},{key:"in_md",label:"Moderate"},{key:"in_hi",label:"Significant"}]},
+  {title:"Staffing",items:[{key:"st_lo",label:"Minimal"},{key:"st_md",label:"Moderate"},{key:"st_hi",label:"Significant"}]},
+  {title:"FTI category",items:[{key:"fti_core",label:"FTI core"},{key:"fti_ext",label:"FTI extended"}]},
+  {title:"Status / tracker",items:[{key:"inprog",label:"In progress"},{key:"trk",label:"In tracker"},{key:"gap",label:"Tracker gap"}]},
+  {title:"Related items",items:[{key:"rel",label:"Related Jira / Confluence"}]},
+];
+
+function dotSpan(key,extra){
+  const d=DOT[key];
+  if(!d) return '';
+  let style=`width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block;${extra||''}`;
+  if(d.dash) return `<span style="${style}border:1.5px dashed ${d.border};background:transparent" title="${d.title}"></span>`;
+  if(d.border) return `<span style="${style}background:${d.bg};box-shadow:0 0 0 1.5px ${d.border}" title="${d.title}"></span>`;
+  return `<span style="${style}background:${d.bg}" title="${d.title}"></span>`;
+}
+
+/* Build legend */
+(function(){
+  let h='<div class="leg-grid">';
+  LEG_GROUPS.forEach(g=>{
+    h+=`<div class="leg-group"><div class="leg-title">${g.title}</div>`;
+    g.items.forEach(i=>{
+      h+=`<div class="leg-row">${dotSpan(i.key)}<span>${i.label}</span></div>`;
+    });
+    h+='</div>';
+  });
+  document.getElementById('leg').innerHTML=h+'</div>';
+})();
+
+const avL={n:"usable now",ce:"use once Claude Enterprise rolled out",g:"use once Glean production approved",f:"use once Frontier level enabled at CFA",p:"pilot / pending",l:"request via Jira",b:"requires build",j:"request via Jira"};
+const avC={n:"av-n",ce:"av-ce",g:"av-g",f:"av-g",p:"av-p",l:"av-l",b:"av-b",j:"av-j"};
+
+const GROUP_LABELS={now:"Usable now",once:"Use once dependency resolved",alt:"Best fit — internal alt avail",gap:"Best fit — gap"};
+const GROUP_CSS={now:"g-now",once:"g-once",alt:"g-alt",gap:"g-gap"};
+
+/* Popover block builder — dot + label + content, neutral background */
+function pblock(dotKey,label,content){
+  const d=DOT[dotKey];
+  let dotHtml;
+  if(d.dash) dotHtml=`<span class="pblock-dot pblock-dot-gap" style="border-color:${d.border}"></span>`;
+  else if(d.border) dotHtml=`<span class="pblock-dot" style="background:${d.bg};box-shadow:0 0 0 1.5px ${d.border}"></span>`;
+  else dotHtml=`<span class="pblock-dot" style="background:${d.bg}"></span>`;
+  return `<div class="pblock">${dotHtml}<div class="pblock-body"><div class="pblock-label">${label}</div>${content}</div></div>`;
+}
+
+function buildPop(cell){
+  let h='';
+
+  /* Source block — one block per quote, then the note */
+  const srcLabel=cell.conf==="src_direct"?"Direct quote":cell.conf==="src_infer"?"Inferred":"Extrapolated";
+  let srcContent='';
+  cell.quotes.forEach(q=>{
+    srcContent+=`<div class="pblock-quote">${q.q}</div><div class="pblock-speaker">${q.s}</div>`;
+  });
+  if(cell.note) srcContent+=`<div class="pblock-text">${cell.note}</div>`;
+  if(srcContent) h+=pblock(cell.conf,srcLabel,srcContent);
+
+  /* Investment dots — one block per investment type present */
+  const invMap={
+    mh_lo:"Man hours — minimal",mh_md:"Man hours — moderate",mh_hi:"Man hours — significant",
+    in_lo:"Infrastructure — minimal",in_md:"Infrastructure — moderate",in_hi:"Infrastructure — significant",
+    st_lo:"Staffing — minimal",st_md:"Staffing — moderate",st_hi:"Staffing — significant",
+  };
+  cell.dots.forEach(k=>{
+    if(invMap[k]) h+=pblock(k,invMap[k],'');
+  });
+
+  /* FTI category */
+  if(cell.fti==="core") h+=pblock("fti_core","FTI core","<div class=\"pblock-text\">Setting Up The FTI Process — Adi Thakur's RAS Priorities tracker</div>");
+  if(cell.fti==="ext") h+=pblock("fti_ext","FTI extended","<div class=\"pblock-text\">Additional Capabilities to FTI Process — Adi Thakur's RAS Priorities tracker</div>");
+
+  /* In progress */
+  if(cell.inprog) h+=pblock("inprog","In progress","<div class=\"pblock-text\">Confirmed active in RAS Priorities tracker</div>");
+
+  /* Tracker */
+  if(cell.tracker) h+=pblock("trk","In tracker",`<div class="pblock-text">${cell.tracker.replace(/\n\n/g,"<br><br>")}</div>`);
+
+  /* Tracker gap */
+  if(cell.gap) h+=pblock("gap","Tracker gap",`<div class="pblock-text">${cell.gap}</div>`);
+
+  /* Related Jira / Confluence */
+  if(cell.related&&cell.related.length){
+    let rc='';
+    cell.related.forEach(r=>{
+      rc+=`<div class="pblock-text" style="margin-bottom:5px"><a href="${r.url}" target="_blank" style="font-weight:600;color:#C45B1A;text-decoration:none">${r.key}</a> — ${r.desc}</div>`;
+    });
+    h+=pblock("rel","Related Jira / Confluence",rc);
+  }
+
+  /* Tools — grouped by category */
+  if(cell.tools&&cell.tools.length){
+    h+=`<div class="ptools-head">Tools</div>`;
+    const groups={now:[],once:[],alt:[],gap:[]};
+    cell.tools.forEach(t=>{groups[t.cat]&&groups[t.cat].push(t);});
+    ['now','once','alt','gap'].forEach(cat=>{
+      if(!groups[cat].length) return;
+      h+=`<div class="ptool-group"><span class="ptool-group-label ${GROUP_CSS[cat]}">${GROUP_LABELS[cat]}</span>`;
+      groups[cat].forEach(t=>{
+        h+=`<div class="ptool"><span class="ptn">${t.n}</span>`;
+        if(t.a) h+=`<span class="av ${avC[t.a]}">${avL[t.a]}</span>`;
+        if(t.once) h+=`<span style="font-size:10px;color:#0C447C;margin-left:4px">(${t.once})</span>`;
+        h+=`<div class="ptool-desc">${t.f}</div>`;
+        if(t.proc) h+=`<div class="ptool-proc">${t.proc}</div>`;
+        h+=`</div>`;
+      });
+      h+=`</div>`;
+    });
+  }
+  return h;
+}
+
+const ROWS=[
+{step:"Ideation",desc:"Collecting signals",cells:[
+{col:"base",conf:"src_direct",title:"27 Word docs, emailed ad hoc",sub:"No repository, no standard format",dots:[],
+ quotes:[{q:'"We had about 26 or 27 [word documents] that came in."',s:"Chris Fidler, March 2026"}],
+ note:"Signal cards arrived by email. No central submission point, no standardized template enforcement, no disposition tracking.",
+ fti:null,inprog:false,tracker:null,gap:"No tracker item for the baseline intake problem.",tools:[]},
+{col:"mvp",conf:"src_direct",title:"Web form with single point of receipt",sub:"Replaces ad hoc email submission",dots:["in_lo"],
+ quotes:[
+  {q:'"Ability for individuals inside and outside the organization to complete and submit a signal card. Submissions must be routed to a single point of receipt."',s:"FTI Capabilities Document (Chris Fidler)"},
+  {q:'"Brian Pisaneschi worked on developing a skill to assist with the writing of these templates."',s:"Chris Fidler, March 2026"}
+ ],
+ note:"Two parallel MVP capabilities: (1) web form for signal card submission — simple enough that outside contributors will use it; (2) Brian's fti-signal-card skill for guided authoring, confirmed functional April 7 2026 on Claude Team plan.",
+ fti:"core",inprog:true,
+ tracker:"JPD stubs: 'AI Generated Signal Cards for FTI' and 'AI for Structuring & Analyzing Unstructured Inputs' — both incomplete (no Key ID, no Impact/Effort, no Reporter). RAS Priorities names 'Web Based Signal Card' (Chris Fidler) as in progress.",
+ gap:null,
+ tools:[
+  {cat:"now",n:"Microsoft Forms",a:"n",f:"Best if speed is priority — zero procurement, deploys in days, routes to shared inbox."},
+  {cat:"now",n:"Qualtrics",a:"n",f:"Best if downstream data analysis in Snowflake is needed — enterprise license confirmed."},
+  {cat:"now",n:"Claude — fti-signal-card skill",a:"n",f:"Built by Brian Pisaneschi. Guided interview, web research, .docx output. Works today."}
+ ]},
+{col:"med",conf:"src_direct",title:"Signal card repository with disposition tracking",sub:"Cards stored, tracked, searchable",dots:["in_md","mh_md"],
+ quotes:[{q:'"We need to have kind of a structured repository for signal cards... how was it dispositioned? Did we throw it out... or this was actually incorporated into a proposal?"',s:"Chris Fidler, Feb 27 2026"}],
+ note:"Chris explicitly described needing disposition tracking — knowing what happened to each signal card after submission. Listed as planned capability in the capabilities document.",
+ fti:"ext",inprog:false,
+ tracker:"RASPD-36 (Intelligent Internal Search — Sandy Peters): federated semantic search across RPC archive. Related but scoped to existing content, not signal card intake.",
+ gap:"No tracker item for a signal card repository with disposition tracking.",
+ related:[{key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. The search layer this cell depends on for medium-term signal card discovery."}],
+ tools:[
+  {cat:"now",n:"SharePoint List",a:"n",f:"Best near-term — familiar to RAS, zero procurement, supports custom columns for disposition status."},
+  {cat:"once",n:"Glean Phase 1",a:"g",once:"Glean production approved",f:"Best once deployed — Confluence/SharePoint/Salesforce indexed automatically; semantic search across corpus."},
+  {cat:"once",n:"Custom database via Claude Code",a:"b",once:"build scoped and approved",f:"Best if fields need to match signal card schema exactly."}
+ ]},
+{col:"end",conf:"src_direct",title:"Automated signal detection from meetings and sources",sub:"Transcripts in, signal cards out",dots:["mh_hi","in_hi"],
+ quotes:[
+  {q:'"AI skill that creates signal cards from a collection of inputs, such as practice analysis, market intelligence, Salesforce meeting notes / chatter, newsfeeds, and roundtable recordings / transcripts."',s:"FTI Capabilities Document (Chris Fidler)"},
+  {q:'"There\'s one agent grabbing stuff from Salesforce, there\'s another agent grabbing stuff from here... they might be creating signal cards."',s:"Chris Fidler, Feb 27 2026"},
+  {q:'"You could take a transcript of a meeting and extract the signal cards from that."',s:"Brian Pisaneschi, April 7 2026"}
+ ],
+ note:"Three independent sources converge on this end state. Brian's two-tier architecture: Tier 1 (GitHub, Hugging Face, frontier lab blogs, AI practitioner LinkedIn) as leading indicators; Tier 2 (Salesforce, Teams transcripts, finance media) as lagging. Client Intelligence Agent (Jira SR-737) prototyping a related BD workflow — potential shared infrastructure.",
+ fti:"ext",inprog:false,
+ tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): automated monitoring and summarized briefings. Key ID assigned.\n\nRASPD-43 (EI/FAJ Trend Detection — Allison Adams): corpus scanning of EI content for latent signals. Key ID assigned.\n\nRAS Priorities: 'AI Generated Signal Cards for FTI' (Chris Fidler) tagged FTI extended.",
+ gap:null,
+ related:[
+  {key:"SR-737",url:"https://cfainstitute.atlassian.net/browse/SR-737",desc:"Client Intelligence Agent — Epic, Status: New. Ingests Teams/Zoom transcripts and Salesforce event notes for theme extraction. Overlaps directly with this end state; explicitly flagged as similar to RAS meeting notes use case. Potential shared infrastructure."},
+  {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Glean Phase 2+ connectors (Salesforce, Teams, Confluence) are the enterprise backbone for this end state once approved."}
+ ],
+ tools:[
+  {cat:"once",n:"Salesforce Platform AI",a:"j",once:"access granted via Jira request to Adi",f:"AI layer directly on the Salesforce data where meeting notes and chatter already live — no extraction step required."},
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option once fully deployed — Salesforce, Teams, Confluence connectors in scope."},
+  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Connects to Salesforce, Confluence, and web simultaneously. Claude model critiques GPT-generated research output. Alternative to Glean within M365 governance envelope — pick based on whether CFA enables Frontier or Glean first."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a fully custom agentic signal ingestion pipeline with configurable Tier 1 / Tier 2 source weighting."}
+ ]}
+]},
+{step:"Macro Foresight",desc:"Long-range horizon scanning",cells:[
+{col:"base",conf:"src_direct",title:"Capability does not exist today",sub:"Confirmed absent — new function required",dots:[],
+ quotes:[],note:"Q2 FY26 deck explicitly labels Macro Systems & Foresight as a *NEW* capability. Mona's November 2025 LT memo confirms it is not operational today.",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_infer",title:"Structured horizon scanning using Claude",sub:"Minimal stepping stone — not a confirmed plan",dots:["mh_lo"],
+ quotes:[],note:"No explicit near-term MVP described by Chris or Mona. Practical first step: structured use of Claude Enterprise for horizon scanning and synthesis once available. Inferred, not a stated commitment.",
+ fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): automated monitoring and summarized briefings. Closest tracker analogue. Key ID assigned.",gap:null,
+ related:[{key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. If Glean lands before Claude Enterprise, it may serve as a better MVP stepping stone for horizon scanning than Claude alone."}],
+ tools:[
+  {cat:"once",n:"Claude Enterprise",a:"ce",once:"Claude Enterprise rolled out",f:"Best for structured horizon scanning and synthesis — no data-training risk. Strong choice if RAS wants to build custom skills on top."},
+  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Deep research agent grounded in SharePoint and Confluence Cloud. Claude model critiques GPT output before delivery. Best if CFA enables Frontier before Claude Enterprise lands — stays entirely within M365 governance."},
+  {cat:"now",n:"Perplexity",a:"j",f:"Limited to Education/TAIS — request via Jira (Mark Snuffin or Adi). Useful for web-grounded research queries."}
+ ]},
+{col:"med",conf:"src_direct",title:"New dedicated Macro Foresight function",sub:"Staffing-first — the largest single investment in this matrix",dots:["st_hi"],
+ quotes:[{q:'"We need to build the capability to scan long-term structural shifts, transmission mechanisms, and future scenarios to inform a unified house view."',s:"Mona Naqvi, Q2 FY26 deck"}],
+ note:"Q2 deck labels Macro Systems & Foresight as *NEW* and places it in the medium-term column. Primary investment is headcount and organizational design. Technology supports but does not replace human judgment.",
+ fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring) and RASPD-43 (EI/FAJ Trend Detection — Allison Adams) both relevant to the technology layer of this function.",gap:null,
+ tools:[
+  {cat:"now",n:"Dedicated Macro Foresight analyst or team",a:"n",f:"Primary investment. Staffing decision must precede technology choices."},
+  {cat:"once",n:"Glean Phase 1+",a:"g",once:"Glean production approved",f:"Cross-source synthesis across Salesforce, Teams, Confluence once deployed."},
+  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Deep research with Confluence Cloud connector and Salesforce integration. Alternative to Glean within M365 envelope — pick based on which CFA enables first."}
+ ]},
+{col:"end",conf:"src_direct",title:"AI-powered intelligence network — signals to house view",sub:"Closes the loop between signals and enterprise strategy",dots:["in_hi","mh_hi"],
+ quotes:[{q:'"A way to tell a very clear story of how something started out as an idea but became real world behavior change."',s:"Mona Naqvi, Feb 17 2026"}],
+ note:"AI Use Case Plan — Use Case 3 (Regulator Meeting Tracking) confirmed security-approved. Brian's two-tier signal architecture maps directly to this end-state vision. House view informs all downstream FTI steps.",
+ fti:"ext",inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): institutional version of this end state. Key ID assigned.",gap:null,
+ related:[
+  {key:"SR-737",url:"https://cfainstitute.atlassian.net/browse/SR-737",desc:"Client Intelligence Agent — Epic, Status: New. Signal extraction from Salesforce and transcripts — directly overlapping architecture with this end state."},
+  {key:"Confluence: AI Knowledge Base for Regulator Meeting Tracking",url:"https://cfainstitute.atlassian.net/wiki/spaces/ASR/pages/4037050767",desc:"Formal written use case (ASR space). Security-approved. Describes automated ingestion of regulator meeting transcripts and Salesforce notes — the institutional intelligence network this cell envisions."},
+  {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Phase 2+ connectors are the infrastructure backbone for this end state."}
+ ],
+ tools:[
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option for cross-source intelligence synthesis once fully deployed."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a custom agentic intelligence network with configurable source weighting and house-view synthesis."}
+ ]}
+]},
+{step:"Scoping",desc:"Proposal development",cells:[
+{col:"base",conf:"src_direct",title:"Manual proposal writing from Word template",sub:"Quality highly variable without AI",dots:[],
+ quotes:[{q:'"The ones that used Claude were much better than the ones that didn\'t."',s:"Chris Fidler, March 2026"}],
+ note:"Eight-part proposal template used in March 2026 pilot. Drop-downs plus narrative fields requiring judgment. Authors who used Claude produced noticeably stronger proposals.",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_direct",title:"Claude proposal co-authoring skill — available now",sub:"Brian's skill confirmed on Team plan",dots:["mh_lo"],
+ quotes:[
+  {q:'"AI skill that assists proposal authors complete the FTI proposal template."',s:"FTI Capabilities Document (Chris Fidler)"},
+  {q:'"For MVP what I\'d want to do is get it to a point where all authors are able to use it."',s:"Chris Fidler, March 2026"}
+ ],
+ note:"fti-proposal skill confirmed functional April 7 2026 (Brian Pisaneschi). Section-by-section co-authoring, 3–6 web searches per section, .docx output. Available NOW on Team plan for individual use. Enterprise needed only for org-wide deployment.",
+ fti:"core",inprog:true,tracker:"RAS Priorities: 'Agent to Support FTI Proposal Writing' (Chris Fidler) — In Progress, tagged FTI core. No separate JPD item for org-wide rollout.",
+ gap:"No tracker item for proposal skill org-wide deployment. Worth adding as a JPD item.",
+ tools:[
+  {cat:"now",n:"Claude — fti-proposal skill",a:"n",f:"Built by Brian Pisaneschi. Works on Team plan today. Section-by-section, web search per section, .docx output."},
+  {cat:"once",n:"Claude Enterprise (org-wide rollout)",a:"ce",once:"Claude Enterprise rolled out",f:"Required to deploy to all RAS proposal authors at scale. Better for custom skill development and deeper reasoning."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Multi-step task execution grounded in SharePoint and Confluence. Custom SKILL.md files in OneDrive work identically to Brian's existing skills. Best if CFA is already using M365 heavily — stays inside M365 governance without a separate Claude license."}
+ ]},
+{col:"med",conf:"src_extrap",title:"Proposal drafting grounded in the signal card database",sub:"Curated evidence replaces ad hoc web search",dots:["mh_md"],
+ quotes:[],note:"Not described explicitly. Logical next step: the proposal skill draws on the structured signal card repository rather than ad hoc web searches. Depends on medium-term Ideation repository being built first.",
+ fti:"ext",inprog:false,tracker:null,gap:"No tracker item for a signal-grounded proposal workflow.",
+ tools:[
+  {cat:"once",n:"Claude Enterprise + SharePoint signal repository",a:"ce",once:"Claude Enterprise rolled out and signal card repository built",f:"SharePoint stores validated signal cards; Claude drafts proposals drawing from them. Better for deeper reasoning and custom workflows."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Can draw on SharePoint signal repository natively via Work IQ without additional configuration. Best if M365 is the primary authoring environment and Frontier is enabled before Claude Enterprise."},
+  {cat:"once",n:"Claude Code + API",a:"b",once:"signal card database structured and build scoped",f:"Best for a custom retrieval pipeline once the signal card database is structured."}
+ ]},
+{col:"end",conf:"src_extrap",title:"Fully agentic proposal generation",sub:"Signals in, draft proposal out",dots:["mh_hi"],
+ quotes:[],note:"Not described by Chris or Mona. Plausible long-term end state: system ingests approved signals, cross-references CFA's prior positions, and produces a full draft proposal for human review.",
+ fti:null,inprog:false,tracker:null,gap:null,
+ tools:[
+  {cat:"now",n:"ChatGPT Enterprise",a:"n",f:"Viable fallback using existing enterprise license — Custom GPT configured with the proposal template."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a fully agentic proposal pipeline with custom retrieval, citation logic, and CFA prior position cross-referencing."}
+ ]}
+]},
+{step:"Selection",desc:"Scoring and prioritization",cells:[
+{col:"base",conf:"src_direct",title:"14 individual Excel scorecards, manually consolidated",sub:"High effort, analyst-dependent, fragile",dots:[],
+ quotes:[{q:'"We did it via Excel... people submitted their cards back via Excel. We consolidated it and then we did the data analysis."',s:"Chris Fidler, March 2026"}],
+ note:"14 individual Excel scorecard files confirmed from March 2026 uploads. Consolidated manually by Ryan Munson. Rubric still evolving — Chris explicitly does not want a rigid structure.",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_direct",title:"Digital scoring tool — Qualtrics or Forms",sub:"Consolidation becomes automatic",dots:["in_lo"],
+ quotes:[
+  {q:'"Ability for individuals to complete and submit scorecards."',s:"FTI Capabilities Document (Chris Fidler)"},
+  {q:'"For selection, I\'d love to have a digital tool — something that makes the consolidation automatic."',s:"Chris Fidler, March 2026"}
+ ],
+ note:"Qualtrics confirmed as existing enterprise tool. Rubric flexibility is a stated requirement. Chris mentioned Jira Product Discovery as an option but expressed skepticism based on past implementation failures.",
+ fti:"core",inprog:false,tracker:"RAS Priorities: 'Proposal Scoring' (Chris Fidler) — tagged FTI core. Not yet in progress.",
+ gap:"No JPD item for a digital selection scoring tool.",
+ tools:[
+  {cat:"now",n:"Qualtrics",a:"n",f:"Best if scoring data needs to flow downstream to Snowflake — enterprise license confirmed."},
+  {cat:"now",n:"Microsoft Forms + Power Automate",a:"n",f:"Best if speed matters and rubric is simple — zero-config, deploys in hours."},
+  {cat:"now",n:"Jira Product Discovery",a:"n",f:"Already at CFA. Chris skeptical based on past experience — use only if cross-divisional Jira adoption is confirmed."}
+ ]},
+{col:"med",conf:"src_infer",title:"AI pre-scoring of proposals before committee review",sub:"Committee reviews AI summary alongside raw proposal",dots:["mh_md","in_md"],
+ quotes:[],note:"Inferred: Claude evaluates each proposal against the scoring rubric and produces a structured summary for committee members before they score. Reduces reading time; does not replace human judgment.",
+ fti:"ext",inprog:false,tracker:"RASPD-34 (Practitioner Persona Portfolio — Mona Naqvi): synthetic personas to stress-test research. Tangentially relevant — personas could inform scoring criteria weighting.",gap:null,
+ tools:[
+  {cat:"now",n:"ChatGPT Enterprise Custom GPT",a:"n",f:"Viable now — Custom GPT configured with the scoring rubric for pre-review."},
+  {cat:"once",n:"Claude Enterprise + Qualtrics",a:"ce",once:"Claude Enterprise rolled out",f:"Claude pre-scores proposals against rubric; Qualtrics aggregates human scores alongside AI summary."}
+ ]},
+{col:"end",conf:"src_extrap",title:"Integrated selection dashboard with AI pre-scoring",sub:"Real-time aggregation; committee deliberation support",dots:["mh_hi","in_hi"],
+ quotes:[],note:"Not described explicitly. Purpose-built selection interface: AI pre-scores proposals, scores aggregated in real time, committee members annotate and compare before a final decision.",
+ fti:null,inprog:false,tracker:null,gap:null,
+ tools:[
+  {cat:"now",n:"Qualtrics advanced analytics",a:"n",f:"If CFA license includes advanced tiers, may support dashboard views without a custom build."},
+  {cat:"once",n:"Claude Code + custom scoring dashboard",a:"b",once:"build scoped and approved",f:"Best for a purpose-built interface with AI pre-scoring and live aggregation."}
+ ]}
+]},
+{step:"Planning",desc:"Sprint coordination",cells:[
+{col:"base",conf:"src_direct",title:"Three separate systems — no unified plan",sub:"Fragmented across Wrike, Jira, and Monday.com",dots:[],
+ quotes:[{q:'"We have three separate systems. I don\'t love that."',s:"Chris Fidler, March 2026"}],
+ note:"Wrike for RAS production, Jira for portfolio tracking (no dates), Monday.com for marketing. Chris defaulted to Excel. He wants 'project management light' — tasks and timelines across the whole delivery chain.",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_direct",title:"Single project management tool covering the full sprint",sub:"Dates, dependencies, cross-divisional visibility",dots:["in_lo"],
+ quotes:[{q:'"Ability to create and manage project plans."',s:"FTI Capabilities Document (Chris Fidler)"}],
+ note:"Chris stated this requirement explicitly. He wants one system with dates and task ownership. Wrike already in RAS for production but cross-divisional access scope unconfirmed. Chris skeptical of Jira.",
+ fti:"core",inprog:false,tracker:"RAS Priorities: 'Project Management Software Integration' (Chris Fidler) — tagged both BAU Efficiency and FTI core. Not yet in progress.",gap:null,
+ tools:[
+  {cat:"now",n:"Wrike",a:"n",f:"Already in use for RAS production. Best near-term if cross-divisional access can be confirmed — verify scope before committing."},
+  {cat:"now",n:"Microsoft Planner / Teams",a:"n",f:"Best if cross-divisional Wrike access is a constraint — already in M365 stack, no procurement."},
+  {cat:"now",n:"Jira (with dates enabled)",a:"n",f:"Already used for RAS portfolio. Viable if teams are already in Jira — Chris skeptical based on past experience."}
+ ]},
+{col:"med",conf:"src_extrap",title:"AI-generated KPIs and stakeholder summaries from approved proposals",sub:"Planning documents drafted from selection outputs",dots:["mh_md","in_md"],
+ quotes:[],note:"Not described explicitly. Logical extension: once proposals approved at Gate 2, Claude drafts working group KPIs and stakeholder summaries, reducing manual planning overhead.",
+ fti:"ext",inprog:false,tracker:"RASPD-48 (Research Sprint Acceleration — Rhodri Preece): end-to-end pre-production automation. Key ID assigned.",gap:null,
+ tools:[
+  {cat:"now",n:"Wrike native AI features",a:"n",f:"Wrike has native AI task-generation — worth assessing before building custom."},
+  {cat:"once",n:"Claude Enterprise + Wrike",a:"ce",once:"Claude Enterprise rolled out",f:"Claude drafts KPIs and stakeholder summaries from approved proposals; Wrike tracks execution. Better for deeper reasoning and custom prompt workflows."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Can draft KPIs, stakeholder summaries, and sprint plans from approved proposals stored in SharePoint or Confluence, then push deliverables directly to Word/Excel within M365. Best if Frontier lands before Claude Enterprise."},
+  {cat:"alt",n:"Smartsheet + Claude MCP connector",a:"n",f:"Best fit — internal alt avail. Generally available March 2 2026. Connects Smartsheet live project data directly to Claude: query task status, surface risks, and generate new sprint plans through natural language conversation. Requires Smartsheet Business or Enterprise license (not currently in CFA stack). Internal alternative: Claude Enterprise + Wrike. See FTI Bespoke Build Register for custom build path if Smartsheet is not procured."}
+ ]},
+{col:"end",conf:"src_extrap",title:"Automated sprint plan generation from approved proposals",sub:"Proposal in, full plan out — human-reviewed",dots:["in_hi","mh_hi"],
+ quotes:[],note:"Not described. Plausible end state: takes approved proposals and generates a complete sprint plan — milestones, owner assignments, KPIs, stakeholder map — for human review.",
+ fti:null,inprog:false,tracker:null,gap:null,
+ tools:[
+  {cat:"once",n:"Glean + Wrike",a:"g",once:"Glean production approved",f:"Once Glean deployed — cross-system context (Salesforce, Teams, Confluence) fed into planning."},
+  {cat:"once",n:"Claude Code + Wrike API",a:"b",once:"build scoped and approved",f:"Best for custom integration between Claude and Wrike for automated plan generation."}
+ ]}
+]},
+{step:"Execution",desc:"Research and writing",cells:[
+{col:"base",conf:"src_direct",title:"Manual research — 10–12 week sprints, milestone gates",sub:"No AI-assisted research tooling in the March 2026 pilot",dots:[],
+ quotes:[{q:'"Research commences with milestone reviews at set checkpoints."',s:"Mona Naqvi, Q2 FY26 deck"}],
+ note:"10–12 week execution phase per the FTI sprint timeline. Milestone reviews at Gate 4 checkpoints. Copy editing alone currently takes 1–2 weeks (RASPD-47).",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_infer",title:"Claude for research drafting and synthesis",sub:"Individual researchers use Claude today",dots:["mh_lo"],
+ quotes:[],note:"AI Use Case Plan — Use Case 2 (Research Assistant / Nexus) confirmed security-approved. Individual researchers can use Claude Team plan today. Confirm data privacy status with Adi before using sensitive internal materials.",
+ fti:"ext",inprog:false,tracker:"RASPD-48 (Research Sprint Acceleration — Rhodri Preece): Key ID assigned.",gap:null,
+ related:[{key:"GPT: RAS MD Sidekick",url:"https://cfainstitute.atlassian.net/wiki/spaces/AIP/pages/4561993800/GPT+Inventory+-+Top+100",desc:"Active Custom GPT built by Allison Adams. 332 messages over 10 weeks, currently rank 22. Functions as an informal research and drafting assistant for RAS — the predecessor this MVP would formalize and replace."}],
+ tools:[
+  {cat:"now",n:"ChatGPT Enterprise",a:"n",f:"Available now. Usable for research drafting and synthesis while other options are being rolled out."},
+  {cat:"once",n:"Claude Enterprise",a:"ce",once:"Claude Enterprise rolled out",f:"Best for research drafting and synthesis — no data-training risk, full capability, best reasoning."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Multi-step research execution grounded in SharePoint and Confluence. Deep Research built-in skill handles structured synthesis tasks. Best within M365 governance envelope."},
+  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Deep research agent with Claude-model critique pass. Connects to Salesforce, Confluence, and web. Stronger than Cowork for pure research depth; Cowork is stronger for multi-step execution and document production."}
+ ]},
+{col:"med",conf:"src_infer",title:"AI editorial review, tracked changes, copy editing compression",sub:"Review cycles shortened from weeks to days",dots:["mh_md"],
+ quotes:[],note:"Three active JPD items from Rhodri Preece target this layer. RASPD-46, RASPD-47, and RASPD-48 together describe an AI-assisted production pipeline. AI Editorial Review w/ Track Changes confirmed In Progress in RAS Priorities.",
+ fti:"ext",inprog:true,
+ tracker:"RASPD-46 (AI Editorial Review with Track Changes — Rhodri Preece): In Progress. Key ID assigned.\n\nRASPD-47 (Copy Edit Compression — Rhodri Preece): Key ID assigned.\n\nRASPD-48 (Research Sprint Acceleration — Rhodri Preece): Key ID assigned.\n\nRAS Priorities: 'AI Editorial Review w/ Track Changes' (Rhodri Preece) — In Progress, tagged FTI extended.",
+ gap:null,
+ tools:[
+  {cat:"once",n:"Claude Enterprise + docx skill",a:"ce",once:"Claude Enterprise rolled out",f:"Best for AI editorial review with tracked changes output. Strongest for custom skill development and complex reasoning."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Word skill handles document creation and editing natively within M365. Can coordinate review cycles across Teams and Outlook. Best if M365 is the primary authoring environment."},
+  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Best for the research synthesis layer — Claude-model critique improves accuracy before output. Pair with Cowork's Word skill for a complete research-to-document pipeline."},
+  {cat:"once",n:"Glean",a:"g",once:"Glean production approved",f:"Best for cross-archive research synthesis across Confluence, SharePoint, and Salesforce once deployed."},
+  {cat:"alt",n:"Vesence",a:"n",f:"Best fit — internal alt avail. Purpose-built AI editorial review inside Microsoft Word. Proprietary OOXML engine produces native Word tracked changes (insertions, deletions, comments) that authors accept or reject one by one. Persona-based review agents for different pass types. SOC 2 Type II, zero data retention, Azure-hosted. Currently positioned for law firms; requires configuration for RPC research manuscript standards. Custom enterprise pricing — not in CFA stack. See FTI Bespoke Build Register for custom build path if Vesence procurement is not feasible."},
+  {cat:"gap",n:"AI tracked changes annotation for .docx manuscripts",a:"n",f:"Best fit — gap. No tool in CFA’s current stack produces native Word tracked changes by annotating an existing manuscript. Claude Enterprise + docx skill produces a rewrite (new document), not a redline. Copilot in Word rewrites rather than annotates. This is a workflow incompatibility, not a quality difference. The RPC editorial workflow requires tracked changes for author accept/reject. Without either Vesence procurement or a custom build, this function cannot be performed by AI at the required output format. See FTI Bespoke Build Register for build spec."}
+ ]},
+{col:"end",conf:"src_direct",title:"AI research assistant with full institutional knowledge access",sub:"Grounded in Confluence, SharePoint, and Salesforce",dots:["mh_hi","in_hi"],
+ quotes:[],note:"AI Use Case Plan — Use Case 2 (Research Assistant / Nexus) describes an AI research assistant with full Confluence and SharePoint integration. Security-approved. Intelligent Internal Search (RPC Research Assistant, Allison Adams) confirmed In Progress in RAS Priorities.",
+ fti:"ext",inprog:true,
+ tracker:"RASPD-34 (Practitioner Persona Portfolio — Mona Naqvi): relevant to end-state research quality checking. Key ID assigned.\n\nRAS Priorities: 'Intelligent Internal Search RPC Research Assistant' (Allison Adams) — In Progress, tagged FTI extended.",
+ gap:null,
+ related:[
+  {key:"AIP-1394",url:"https://cfainstitute.atlassian.net/browse/AIP-1394",desc:"RAS Research Assistant / AskCFA — the formal Jira ticket for this use case. Tied to Glean/EPAM build. This is the institutional project this end state describes."},
+  {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Infrastructure prerequisite for AIP-1394."},
+  {key:"Confluence: AI Use Case Plans — RAS (Use Case 2)",url:"https://cfainstitute.atlassian.net/wiki/spaces/AIP/pages/4178903099",desc:"Detailed use case plan for the AI-Powered Research Assistant — KPIs, phased roadmap, RAG architecture notes."}
+ ],
+ tools:[
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option once fully deployed — full institutional knowledge access."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a purpose-built research assistant with custom source connectors and RAG architecture."}
+ ]}
+]},
+{step:"Amplification",desc:"Distribution and reach",cells:[
+{col:"base",conf:"src_infer",title:"Manual, siloed amplification",sub:"Launch events and outreach — no coordinated strategy",dots:[],
+ quotes:[],note:"Inferred from Mona's LT memo: fragmented voice, no coordinated amplification strategy. Launch events, society outreach, and global roadshow described in Q2 FY26 deck as the target model — not operational today.",
+ fti:null,inprog:false,tracker:null,gap:null,tools:[]},
+{col:"mvp",conf:"src_infer",title:"AI-generated derivative content",sub:"Cheat sheets, messaging packs, social posts from research outputs",dots:["mh_lo"],
+ quotes:[],note:"Practice Advisory function described in Mona's Q2 deck produces messaging kits and cheat sheets as a core deliverable. AI can generate these from research outputs without significant additional effort.",
+ fti:"ext",inprog:false,tracker:"RASPD-45 (Webinar Content Automation — Allison Adams): auto-transcribe, edit, summarize, publish. Key ID assigned.",gap:null,
+ tools:[
+  {cat:"now",n:"ChatGPT Enterprise",a:"n",f:"Available now for messaging pack and social content drafting."},
+  {cat:"once",n:"Claude Enterprise",a:"ce",once:"Claude Enterprise rolled out",f:"Best for derivative content generation at scale — strongest reasoning and custom template workflows."},
+  {cat:"once",n:"Copilot Cowork",a:"f",once:"Frontier level enabled at CFA",f:"Can generate messaging packs, cheat sheets, and social posts from research outputs in SharePoint, then deliver directly as Word/PowerPoint/email within M365. Best if Frontier is enabled and M365 is the distribution environment."}
+ ]},
+{col:"med",conf:"src_infer",title:"Multimedia content engine — reports to podcasts and video",sub:"Research converted into multiple formats",dots:["mh_md","in_md"],
+ quotes:[],note:"Eliot Pikoulis flagged a content ecosystem strategy in the Feb 17 call. AI Use Case Plan — Use Case 1 (AI Podcasts) proposes ElevenLabs. 'Sound Investing' (Allison Adams) confirmed In Progress in RAS Priorities — derivative podcasts and content from existing RPC data.",
+ fti:"ext",inprog:true,
+ tracker:"RASPD-43 (EI/FAJ Trend Detection — Allison Adams): two-way channel — amplify outward, detect signals coming back. Key ID assigned.\n\nRAS Priorities: 'Sound Investing' (Allison Adams) — In Progress, tagged FTI extended.",
+ gap:null,
+ related:[
+  {key:"Confluence: AI Use Case Plans — RAS (Use Case 1)",url:"https://cfainstitute.atlassian.net/wiki/spaces/AIP/pages/4178903099",desc:"Formal AI Podcasts use case plan — KPIs, vendor evaluation (ElevenLabs/Speechify), CMS workflow requirements, rollout governance."},
+  {key:"NEX project (Nexus)",url:"https://cfainstitute.atlassian.net/browse/NEX-45",desc:"The Research Assistant (Nexus) Jira project overlaps here — Phase 2+ includes generating social posts, presentation slides, and visualizations from research outputs, which is core amplification functionality."},
+  {key:"IS Hackathon — Team 2 (Macro Fundamentals Course)",url:"https://cfainstitute.atlassian.net/wiki/spaces/IS/pages/4650172475",desc:"Hackathon POC that built a standalone macro course drawing on RAS research content, including a Macro Intelligence Hub and Scenario Lab. Proof of concept for coursified RAS output as an amplification format — exactly the 'coursified research' pathway in the Q2 FY26 influence step-stair."}
+ ],
+ tools:[
+  {cat:"now",n:"ElevenLabs",a:"j",f:"Role-based access (Education/Membership) — request via Jira. AI podcast use case already proposed in Use Case 1."},
+  {cat:"now",n:"Lumen5",a:"j",f:"Role-based access (Education/Membership/TAIS), 1 license — scarce. Request via Jira. Text-to-video for turning research outputs into short video assets."},
+  {cat:"once",n:"Claude Enterprise + content templates",a:"ce",once:"Claude Enterprise rolled out",f:"Best for systematic derivative content production at scale."}
+ ]},
+{col:"end",conf:"src_direct",title:"Integrated content and society amplification network",sub:"Coordinated outreach across all influence pathways",dots:["mh_hi","in_hi"],
+ quotes:[],note:"AI Use Case Plan — Use Case 1 (AI Podcasts) security status pending. Mona's Q2 deck describes societies and luminaries as amplification partners equipped with messaging packs from Practice Advisory.",
+ fti:"ext",inprog:false,tracker:"RASPD-34 (Practitioner Persona Portfolio — Mona Naqvi): persona-based messaging for targeted amplification. Key ID assigned.",gap:null,
+ related:[
+  {key:"IS Hackathon — Team 5 (Role-based AI Agents & Deployable Skills)",url:"https://cfainstitute.atlassian.net/wiki/spaces/IS/pages/4649746481",desc:"Hackathon POC (Mark Snuffin) for configurable AI agents deployable at organisation or role level, drawing on CFA body of knowledge and codes and standards. Maps to the society-facing amplification end state: RAS guidance delivered through role-specific agents to practitioners at scale."}
+ ],
+ tools:[
+  {cat:"now",n:"ElevenLabs + Claude",a:"j",f:"ElevenLabs via Jira request; Claude via Claude Enterprise once rolled out. Best for AI podcast and audio content end state."},
+  {cat:"now",n:"Synthesia",a:"j",f:"Scarce licenses at CFA — request via Jira. Relevant for video amplification end state."}
+ ]}
+]},
+{step:"Monitoring",desc:"Influence tracking",cells:[
+{col:"base",conf:"src_direct",title:"Influence tracking listed as ongoing — no tools defined",sub:"KPIs described in Q2 deck; measurement not yet operational",dots:[],
+ quotes:[{q:'"Influence tracking and feedback to shape next cycle."',s:"Mona Naqvi, Q2 FY26 deck"}],
+ note:"Q2 deck lists four influence thresholds (translation, adoption, coordination, credibility) with KPIs marked as 'in development'. No measurement infrastructure in the March 2026 pilot.",
+ fti:null,inprog:false,tracker:null,gap:"No JPD item for monitoring tooling or influence KPI infrastructure.",tools:[]},
+{col:"mvp",conf:"src_infer",title:"Basic engagement tracking — downloads, citations, web analytics",sub:"Existing tools; no new infrastructure required",dots:["in_lo"],
+ quotes:[],note:"Coveo and Adobe Analytics confirmed in CFA stack for web engagement. Qualtrics (confirmed enterprise license) handles structured feedback. A baseline monitoring layer with no new procurement.",
+ fti:null,inprog:false,tracker:null,gap:"No JPD item for a monitoring MVP. Notable gap given stated priority in Q2 deck.",
+ tools:[
+  {cat:"now",n:"Coveo / Adobe Analytics",a:"n",f:"Confirmed analytics stack. Best near-term for download and engagement tracking."},
+  {cat:"now",n:"Qualtrics",a:"n",f:"Confirmed enterprise license. Best for structured practitioner feedback surveys."}
+ ]},
+{col:"med",conf:"src_infer",title:"Influence KPI dashboard — tracking the four thresholds",sub:"Translation, adoption, coordination, credibility",dots:["mh_md","in_md"],
+ quotes:[],note:"Mona's Q2 deck names four influence thresholds with quantitative KPIs listed as 'in development'. A medium-term dashboard aggregating web, Salesforce, and survey signals is the logical build.",
+ fti:null,inprog:false,tracker:"RASPD-41 (Cross-CRM Stakeholder Visibility — Sandy Peters): engagement summarization and stakeholder mapping across Salesforce. Key ID assigned.",gap:null,
+ tools:[
+  {cat:"now",n:"Power BI + Snowflake",a:"n",f:"Best for an enterprise KPI dashboard drawing on multiple data sources."},
+  {cat:"now",n:"Salesforce + RASPD-41 agent",a:"n",f:"Best for stakeholder engagement tracking once the Cross-CRM agent (RASPD-41) is built."},
+  {cat:"once",n:"Salesforce Platform AI",a:"j",once:"role-based access granted via Jira request to Adi",f:"AI layer on top of Salesforce for stakeholder engagement tracking — directly enables the RASPD-41 Cross-CRM Visibility use case."},
+  {cat:"alt",n:"Sopact Sense",a:"n",f:"Best fit — internal alt avail. Closest commercial analog to the FTI Monitoring requirement: multi-source data aggregation, theory-of-change framework, persistent stakeholder identity across cycles, AI narrative analysis of open-text survey responses. Does not connect natively to Coveo, Adobe Analytics, or Salesforce without custom integration. Configured for nonprofit/foundation program measurement, not professional association influence measurement. Internal alternative: manual compilation across Coveo/Adobe Analytics, Qualtrics, and Salesforce (workaround). See FTI Bespoke Build Register."},
+  {cat:"gap",n:"Integrated influence measurement layer",a:"n",f:"Best fit — gap. No tool in CFA’s current stack aggregates web analytics, practitioner feedback, and relationship signals against the four FTI influence thresholds (translation, adoption, coordination, credibility) and produces a structured output for re-ingestion into the next sprint’s Ideation step. CFA has three of the four required data sources confirmed (Coveo/Adobe Analytics, Qualtrics, Salesforce) but no integration layer connecting them. KPI definitions from RAS are a prerequisite for Phase 2 of the build. See FTI Bespoke Build Register for two-phase build spec and Macro Foresight dependency note."}
+ ]},
+{col:"end",conf:"src_direct",title:"Closed-loop intelligence — monitoring outputs feed next sprint",sub:"Behavior change data informs Macro Foresight and Ideation",dots:["mh_hi","in_hi"],
+ quotes:[{q:'"A way to tell a very clear story of how something started out as an idea but became real world behavior change."',s:"Mona Naqvi, Feb 17 2026"}],
+ note:"End state: a fully closed loop where monitoring outputs feed directly back into the next sprint's Macro Foresight and Ideation steps.",
+ fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): monitors regulatory and industry response to CFA positions — closes the loop. Key ID assigned.",gap:null,
+ related:[{key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Phase 2+ Glean deployment with Salesforce and web connectors is the infrastructure backbone for the closed-loop monitoring end state — tracking how RAS outputs land externally and feeding signals back into the next sprint."}],
+ tools:[
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option — tracks how RAS outputs land externally and feeds signals back into the next sprint."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a custom influence intelligence loop ingesting external signals about CFA's impact."},
+  {cat:"gap",n:"Closed-loop signal re-ingestion into Ideation",a:"n",f:"Best fit — gap. The end-state requirement that monitoring outputs feed directly back into the next sprint’s Ideation and Macro Foresight steps as structured signal data is not met by any current tool or planned build. Glean Phase 2+ provides the external monitoring layer; the re-ingestion and structured signal output layer requires a custom build. Dependency: Step 8 medium-term build (integration layer) must be complete before the closed-loop end state is achievable."}
+ ]}
+]}
+];
+
+function cBg(c){return c==="src_direct"?"rgba(55,138,221,0.15)":c==="src_infer"?"rgba(55,138,221,0.07)":"rgba(55,138,221,0.02)"}
+
+function cellDots(cell){
+  const d=[cell.conf,"dot-sep"];
+  cell.dots.forEach(k=>d.push(k));
+  if(cell.dots.length) d.push("dot-sep");
+  if(cell.fti==="core") d.push("fti_core");
+  if(cell.fti==="ext") d.push("fti_ext");
+  if(cell.inprog) d.push("inprog");
+  if(cell.fti||cell.inprog) d.push("dot-sep");
+  if(cell.tracker) d.push("trk");
+  if(cell.gap) d.push("gap");
+  if(cell.related&&cell.related.length) d.push("rel");
+  return d;
+}
+
+const map={};
+const tbody=document.getElementById("rows");
+ROWS.forEach(row=>{
+  const tr=document.createElement("tr");
+  let h=`<td class="step-col"><div class="sn">${row.step}</div><div class="sd">${row.desc}</div></td>`;
+  row.cells.forEach(cell=>{
+    const key=row.step+"|"+cell.col;
+    map[key]=cell;
+    h+=`<td style="background:${cBg(cell.conf)}" data-key="${key}">`;
+    h+=`<div class="ct">${cell.title}</div>`;
+    if(cell.sub) h+=`<div class="cs">${cell.sub}</div>`;
+    const allDots=cellDots(cell);
+    h+=`<div class="dots">`;
+    allDots.forEach(k=>{
+      if(k==="dot-sep"){h+=`<span class="dot-sep"></span>`;return;}
+      const d=DOT[k];if(!d)return;
+      if(d.dash) h+=`<span class="dot dot-gap" style="border-color:${d.border};width:10px;height:10px;border-radius:50%;flex-shrink:0;display:inline-block" title="${d.title}"></span>`;
+      else if(d.border) h+=`<span class="dot" style="background:${d.bg};outline:2px solid ${d.border};outline-offset:1px" title="${d.title}"></span>`;
+      else h+=`<span class="dot" style="background:${d.bg}" title="${d.title}"></span>`;
+    });
+    h+=`</div></td>`;
+  });
+  tr.innerHTML=h;
+  tbody.appendChild(tr);
+});
+
+const pop=document.getElementById("pop");
+const pi=document.getElementById("pinner");
+document.getElementById("mtx").addEventListener("click",e=>{
+  const td=e.target.closest("td[data-key]");
+  if(!td) return;
+  const cell=map[td.dataset.key];
+  if(!cell) return;
+  pi.innerHTML=buildPop(cell);
+  const r=td.getBoundingClientRect();
+  pop.style.left=Math.min(r.left,window.innerWidth-330)+"px";
+  pop.style.top=Math.min(r.bottom+6,window.innerHeight-400)+"px";
+  pop.classList.add("show");
+});
+document.getElementById("pclose").addEventListener("click",()=>pop.classList.remove("show"));
+document.addEventListener("click",e=>{if(!pop.contains(e.target)&&!e.target.closest("td[data-key]")) pop.classList.remove("show");});
+</script>
+</body>
+</html>
