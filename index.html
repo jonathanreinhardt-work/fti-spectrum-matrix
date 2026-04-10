@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FTI Spectrum Matrix v31 · CFA Institute RAS · April 2026</title>
+<title>FTI Spectrum Matrix v33 · CFA Institute RAS · April 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a1a;padding:2rem;font-size:13px}
@@ -75,7 +75,7 @@ td:hover{box-shadow:inset 0 0 0 1.5px #333}
 </head>
 <body>
 
-<p class="mx-meta">FTI system: technology options by process step · CFA Institute RAS · April 2026 · v31</p>
+<p class="mx-meta">FTI system: technology options by process step · CFA Institute RAS · April 2026 · v33</p>
 <p class="mx-hint">Click any cell for sourcing, tools, and tracker notes · Hover dots for labels</p>
 
 <table id="mtx">
@@ -118,8 +118,8 @@ const DOT={
   st_lo:{bg:"#F5C4B3",title:"Staffing: minimal"},
   st_md:{bg:"#D85A30",title:"Staffing: moderate"},
   st_hi:{bg:"#8B0000",title:"Staffing: significant"},
-  fti_core:{bg:"#7F77DD",title:"FTI core — Setting Up The FTI Process (Adi Thakur)"},
-  fti_ext:{bg:"#CECBF6",title:"FTI extended — Additional Capabilities to FTI (Adi Thakur)"},
+  fti_core:{bg:"#7F77DD",title:"FTI core — Setting Up The FTI Process (Aditya Thakur, Director, AI and Strategic Innovation)"},
+  fti_ext:{bg:"#CECBF6",title:"FTI extended — Additional Capabilities to FTI (Aditya Thakur, Director, AI and Strategic Innovation)"},
   inprog:{bg:"#FFFFFF",title:"In progress"},
   trk:{bg:"#888780",title:"In JPD tracker"},
   gap:{bg:"transparent",border:"#888780",dash:true,title:"Tracker gap — item not yet in JPD"},
@@ -197,8 +197,8 @@ function buildPop(cell){
   });
 
   /* FTI category */
-  if(cell.fti==="core") h+=pblock("fti_core","FTI core","<div class=\"pblock-text\">Setting Up The FTI Process — Adi Thakur's RAS Priorities tracker</div>");
-  if(cell.fti==="ext") h+=pblock("fti_ext","FTI extended","<div class=\"pblock-text\">Additional Capabilities to FTI Process — Adi Thakur's RAS Priorities tracker</div>");
+  if(cell.fti==="core") h+=pblock("fti_core","FTI core","<div class=\"pblock-text\">Setting Up The FTI Process — Aditya Thakur's RAS Priorities tracker</div>");
+  if(cell.fti==="ext") h+=pblock("fti_ext","FTI extended","<div class=\"pblock-text\">Additional Capabilities to FTI Process — Aditya Thakur's RAS Priorities tracker</div>");
 
   /* In progress */
   if(cell.inprog) h+=pblock("inprog","In progress","<div class=\"pblock-text\">Confirmed active in RAS Priorities tracker</div>");
@@ -278,55 +278,78 @@ const ROWS=[
   {q:'"There\'s one agent grabbing stuff from Salesforce, there\'s another agent grabbing stuff from here... they might be creating signal cards."',s:"Chris Fidler, Feb 27 2026"},
   {q:'"You could take a transcript of a meeting and extract the signal cards from that."',s:"Brian Pisaneschi, April 7 2026"}
  ],
- note:"Three independent sources converge on this end state. Brian's two-tier architecture: Tier 1 (GitHub, Hugging Face, frontier lab blogs, AI practitioner LinkedIn) as leading indicators; Tier 2 (Salesforce, Teams transcripts, finance media) as lagging. Client Intelligence Agent (Jira SR-737) prototyping a related BD workflow — potential shared infrastructure.",
+ note:"Three independent sources converge on this end state. Brian Pisaneschi's two-tier architecture: Tier 1 (GitHub, Hugging Face, frontier lab blogs, AI practitioner LinkedIn) as leading indicators; Tier 2 (Salesforce, Teams transcripts, finance media) as lagging. Intelligence architecture designed April 10 2026 — signal repository schema, collection plan, and indicator-and-warning framework now documented. Client Intelligence Agent (Jira SR-737) prototyping a related BD workflow — potential shared infrastructure.",
  fti:"ext",inprog:false,
  tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): automated monitoring and summarized briefings. Key ID assigned.\n\nRASPD-43 (EI/FAJ Trend Detection — Allison Adams): corpus scanning of EI content for latent signals. Key ID assigned.\n\nRAS Priorities: 'AI Generated Signal Cards for FTI' (Chris Fidler) tagged FTI extended.",
  gap:null,
  related:[
+  {key:"FTI Macro Foresight — Intelligence Architecture Working Notes",url:"https://cfainstitute.atlassian.net/wiki/x/SICbGgE",desc:"Section 4 contains four domain child pages with source inventories and lag structure tables. The signal card system is the HUMINT intake mechanism for the intelligence architecture — Steps 1 and 2 share a data infrastructure."},
   {key:"SR-737",url:"https://cfainstitute.atlassian.net/browse/SR-737",desc:"Client Intelligence Agent — Epic, Status: New. Ingests Teams/Zoom transcripts and Salesforce event notes for theme extraction. Overlaps directly with this end state; explicitly flagged as similar to RAS meeting notes use case. Potential shared infrastructure."},
   {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Glean Phase 2+ connectors (Salesforce, Teams, Confluence) are the enterprise backbone for this end state once approved."}
  ],
  tools:[
-  {cat:"once",n:"Salesforce Platform AI",a:"j",once:"access granted via Jira request to Adi",f:"AI layer directly on the Salesforce data where meeting notes and chatter already live — no extraction step required."},
-  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option once fully deployed — Salesforce, Teams, Confluence connectors in scope."},
-  {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Connects to Salesforce, Confluence, and web simultaneously. Claude model critiques GPT-generated research output. Alternative to Glean within M365 governance envelope — pick based on whether CFA enables Frontier or Glean first."},
-  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a fully custom agentic signal ingestion pipeline with configurable Tier 1 / Tier 2 source weighting."}
+  {cat:"now",n:"RSS aggregator + Python scripts",a:"n",f:"Near-term collection layer for structured Tier 1 and Tier 2 feeds — arXiv API, GitHub API, SSRN, regulatory RSS. Buildable with Python on existing CFA infrastructure. No procurement required."},
+  {cat:"now",n:"Snowflake",a:"n",f:"Existing CFA license. Near-term signal repository — stores all ingested signals with reliability ratings, credibility ratings, classification flags, domain tags, and unique record IDs for audit trail."},
+  {cat:"once",n:"Salesforce connector",a:"j",once:"access granted via Jira request to Aditya Thakur",f:"Tier 2 HUMINT ingestion — meeting notes and chatter classified at ingestion (External confidential or Internal confidential). Feeds the signal repository directly."},
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option for Tier 2 signal collection once deployed — Salesforce, Teams, and Confluence connectors in scope. Replaces manual Salesforce connector work."},
+  {cat:"once",n:"Claude API (batch)",a:"ce",once:"Claude Enterprise rolled out",f:"Novelty scoring and CFA scope fit scoring layer — LLM embedding similarity against maintained corpus of absorbed finance field discourse. Reduces analyst review volume."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a fully custom agentic signal ingestion pipeline with configurable Tier 1 / Tier 2 source weighting, bias detection, and indicator combination scoring."}
  ]}
 ]},
 {step:"Macro Foresight",desc:"Long-range horizon scanning",cells:[
 {col:"base",conf:"src_direct",title:"Capability does not exist today",sub:"Confirmed absent — new function required",dots:[],
  quotes:[],note:"Q2 FY26 deck explicitly labels Macro Systems & Foresight as a *NEW* capability. Mona's November 2025 LT memo confirms it is not operational today.",
  fti:null,inprog:false,tracker:null,gap:null,tools:[]},
-{col:"mvp",conf:"src_infer",title:"Structured horizon scanning using Claude",sub:"Minimal stepping stone — not a confirmed plan",dots:["mh_lo"],
- quotes:[],note:"No explicit near-term MVP described by Chris or Mona. Practical first step: structured use of Claude Enterprise for horizon scanning and synthesis once available. Inferred, not a stated commitment.",
- fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): automated monitoring and summarized briefings. Closest tracker analogue. Key ID assigned.",gap:null,
- related:[{key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. If Glean lands before Claude Enterprise, it may serve as a better MVP stepping stone for horizon scanning than Claude alone."}],
+{col:"mvp",conf:"src_infer",title:"Structured horizon scanning using Claude",sub:"Minimal stepping stone — Phase 1 of intelligence architecture",dots:["mh_lo"],
+ quotes:[],note:"No explicit near-term MVP confirmed by Chris Fidler or Mona Naqvi. Phase 1 of the intelligence architecture: establish the source list (by domain), the signal repository schema (including reliability ratings, credibility ratings, and classification flags), the signal card intake system with HUMINT fields, and the queryable audit log. At this phase, analysts perform all pattern recognition manually. The system provides structured inputs and a disciplined recording mechanism. Retroactive prediction cycles run in parallel to establish baseline indicator weights. See Macro Foresight Intelligence Architecture Working Notes.",
+ fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters, Senior Head, Financial Reporting Policy Group): automated monitoring and summarized briefings. Closest tracker analogue. Key ID assigned.",gap:null,
+ related:[
+  {key:"FTI Macro Foresight — Intelligence Architecture Working Notes",url:"https://cfainstitute.atlassian.net/wiki/x/SICbGgE",desc:"Full six-section architecture document covering strategic mission, three-paradigm operating model, intelligence tradecraft framework, feasible signals by domain, fulfillment assessment, and tactical architecture. Four domain child pages with source inventories, lag structure tables, draft PIQs, and bias risk notes."},
+  {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. If Glean lands before Claude Enterprise, it may serve as a better MVP stepping stone for cross-source horizon scanning than Claude alone."}
+ ],
  tools:[
+  {cat:"now",n:"Snowflake",a:"n",f:"Existing CFA license. Phase 1 signal repository — stores signals with reliability ratings, credibility ratings, classification flags, and audit log. No procurement required. The data infrastructure foundation before any automated collection is built."},
   {cat:"once",n:"Claude Enterprise",a:"ce",once:"Claude Enterprise rolled out",f:"Best for structured horizon scanning and synthesis — no data-training risk. Strong choice if RAS wants to build custom skills on top."},
   {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Deep research agent grounded in SharePoint and Confluence Cloud. Claude model critiques GPT output before delivery. Best if CFA enables Frontier before Claude Enterprise lands — stays entirely within M365 governance."},
-  {cat:"now",n:"Perplexity",a:"j",f:"Limited to Education/TAIS — request via Jira (Mark Snuffin or Adi). Useful for web-grounded research queries."}
+  {cat:"now",n:"Perplexity",a:"j",f:"Limited to Education/TAIS — request via Jira (Mark Snuffin, Head, AI and Strategic Innovation, AI Enablement, or Aditya Thakur). Useful for web-grounded research queries."}
  ]},
 {col:"med",conf:"src_direct",title:"New dedicated Macro Foresight function",sub:"Staffing-first — the largest single investment in this matrix",dots:["st_hi"],
  quotes:[{q:'"We need to build the capability to scan long-term structural shifts, transmission mechanisms, and future scenarios to inform a unified house view."',s:"Mona Naqvi, Q2 FY26 deck"}],
- note:"Q2 deck labels Macro Systems & Foresight as *NEW* and places it in the medium-term column. Primary investment is headcount and organizational design. Technology supports but does not replace human judgment.",
- fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring) and RASPD-43 (EI/FAJ Trend Detection — Allison Adams) both relevant to the technology layer of this function.",gap:null,
+ note:"Q2 deck labels Macro Systems & Foresight as *NEW* and places it in the medium-term column. Primary investment is headcount and organizational design. Technology supports but does not replace human judgment. Architecture designed April 10 2026: Phase 2 adds automated source monitoring against maintained source lists (by domain), novelty scoring and CFA scope fit scoring via LLM, and an indicator-and-warning framework — Bayesian aggregation of co-occurring signals across source types within defined time windows. Four RPC priority domains (Technology/Big Data/AI; Capital Markets Resilience; Sustainable Investing & Net Zero; Future of the Profession) each have distinct Tier 1 and Tier 2 source architectures. Domain lead candidates inferred from org chart: Olivier Fines team (Capital Markets Resilience), Sandy Peters team (Sustainable Investing), Brian Pisaneschi and James Tait (Technology). Warning alert function goes live at this phase. See architecture document.",
+ fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters, Senior Head, Financial Reporting Policy Group) and RASPD-43 (EI/FAJ Trend Detection — Allison Adams, Head, Research Products and Services) both relevant to the technology layer of this function.",gap:null,
+ related:[
+  {key:"FTI Macro Foresight — Intelligence Architecture Working Notes",url:"https://cfainstitute.atlassian.net/wiki/x/SICbGgE",desc:"Full six-section architecture document. Section 2 covers the indicator-and-warning framework, intelligence tradecraft elements (PIQs, source reliability ratings, classification flags, red team LLM analysis, audit trail), and three-paradigm operating model. Section 4 contains four domain child pages with source inventories and lag structure tables."}
+ ],
  tools:[
   {cat:"now",n:"Dedicated Macro Foresight analyst or team",a:"n",f:"Primary investment. Staffing decision must precede technology choices."},
-  {cat:"once",n:"Glean Phase 1+",a:"g",once:"Glean production approved",f:"Cross-source synthesis across Salesforce, Teams, Confluence once deployed."},
+  {cat:"now",n:"Snowflake",a:"n",f:"Signal repository for structured ingestion, scoring, and audit log. Existing CFA license. Hosts the indicator combination scoring layer (Python statistical layer on Snowflake)."},
+  {cat:"now",n:"RSS aggregator + Python scripts",a:"n",f:"Automated collection layer for maintained source lists by domain — Tier 1 (GitHub, arXiv, Hugging Face, frontier lab blogs) and Tier 2 (regulatory RSS, central bank publications, BIS, FSB, ISSB). Daily to weekly monitoring per source type."},
+  {cat:"once",n:"Claude API (batch)",a:"ce",once:"Claude Enterprise rolled out",f:"Novelty scoring and CFA scope fit scoring via LLM embedding similarity. Surfaces high-novelty, high-relevance candidates for analyst review. Reduces the volume of signals requiring manual assessment."},
+  {cat:"now",n:"Power Automate",a:"n",f:"Warning alert channel — triggers real-time notifications when tracked topics cross defined acceleration thresholds. Existing M365 tool; no procurement required."},
+  {cat:"once",n:"Glean Phase 1+",a:"g",once:"Glean production approved",f:"Cross-source synthesis across Salesforce, Teams, Confluence once deployed. Complements the RSS collection layer for internal HUMINT signals."},
   {cat:"once",n:"Copilot Researcher with Critique",a:"f",once:"Frontier level enabled at CFA",f:"Deep research with Confluence Cloud connector and Salesforce integration. Alternative to Glean within M365 envelope — pick based on which CFA enables first."}
  ]},
 {col:"end",conf:"src_direct",title:"AI-powered intelligence network — signals to house view",sub:"Closes the loop between signals and enterprise strategy",dots:["in_hi","mh_hi"],
  quotes:[{q:'"A way to tell a very clear story of how something started out as an idea but became real world behavior change."',s:"Mona Naqvi, Feb 17 2026"}],
- note:"AI Use Case Plan — Use Case 3 (Regulator Meeting Tracking) confirmed security-approved. Brian's two-tier signal architecture maps directly to this end-state vision. House view informs all downstream FTI steps.",
- fti:"ext",inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): institutional version of this end state. Key ID assigned.",gap:null,
+ note:"Architecture designed April 10 2026. Phase 3 of the intelligence architecture: LLM-based pattern synthesis, automatic red team alternative analysis with plausibility scores, and finished product drafting (house view sections, topic briefs, warning alerts). The system encodes analyst judgment progressively — from expert-dependent Paradigm 2 operation toward Paradigm 3 assisted model-based prediction. Audit trail logs every prediction, every contributing indicator, and every analyst decision for retroactive calibration and governance. Organizational intelligence layer produces a separate finished product for senior leadership monitoring credential demand signals. All four RPC priority domains covered with domain-partitioned source lists and indicator frameworks. See architecture document and four domain child pages.",
+ fti:"ext",inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters, Senior Head, Financial Reporting Policy Group): institutional version of this end state. Key ID assigned.",gap:null,
  related:[
+  {key:"FTI Macro Foresight — Intelligence Architecture Working Notes",url:"https://cfainstitute.atlassian.net/wiki/x/SICbGgE",desc:"Full six-section architecture document. Section 6 contains the tactical architecture with five layers (Collection, Processing and scoring, Analyst interface, Output and dissemination, Model improvement), technology stack table, and integration points with signal card system, Glean, Salesforce, Snowflake, and Claude Enterprise."},
+  {key:"Signal Sources — Domain 1: Technology, Big Data & AI",url:"https://cfainstitute.atlassian.net/wiki/x/SYCqGgE",desc:"Domain child page: GitHub, Hugging Face, arXiv, frontier lab blogs, labor market signals. Foresight window 12–24 months. Draft PIQs included."},
+  {key:"Signal Sources — Domain 2: Capital Markets Resilience",url:"https://cfainstitute.atlassian.net/wiki/x/PICjGgE",desc:"Domain child page: FSB work programs, BIS working papers, IMF GFSR, IOSCO, BCBS. Foresight window 24–48 months. Draft PIQs included."},
+  {key:"Signal Sources — Domain 3: Sustainable Investing & Net Zero",url:"https://cfainstitute.atlassian.net/wiki/x/TgCoGgE",desc:"Domain child page: IPCC, ISSB, UNFCCC, EU taxonomy, NGFS. Includes ESG backlash monitoring stream. Draft PIQs included."},
+  {key:"Signal Sources — Domain 4: Future of the Profession",url:"https://cfainstitute.atlassian.net/wiki/x/ZACoGgE",desc:"Domain child page: labor economics preprints, job posting analysis, CFA examination data, employer survey data, member survey data. Organizational intelligence layer overlap. Draft PIQs included."},
   {key:"SR-737",url:"https://cfainstitute.atlassian.net/browse/SR-737",desc:"Client Intelligence Agent — Epic, Status: New. Signal extraction from Salesforce and transcripts — directly overlapping architecture with this end state."},
-  {key:"Confluence: AI Knowledge Base for Regulator Meeting Tracking",url:"https://cfainstitute.atlassian.net/wiki/spaces/ASR/pages/4037050767",desc:"Formal written use case (ASR space). Security-approved. Describes automated ingestion of regulator meeting transcripts and Salesforce notes — the institutional intelligence network this cell envisions."},
   {key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Phase 2+ connectors are the infrastructure backbone for this end state."}
  ],
  tools:[
-  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option for cross-source intelligence synthesis once fully deployed."},
-  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a custom agentic intelligence network with configurable source weighting and house-view synthesis."}
+  {cat:"now",n:"Snowflake",a:"n",f:"Signal repository and scoring infrastructure — long-term target is a purpose-built signal database with full-text search. Near-term: structured Snowflake tables with reliability ratings, credibility ratings, classification flags, domain tags, and queryable audit log."},
+  {cat:"now",n:"Python statistical layer on Snowflake",a:"n",f:"Indicator combination scoring engine — Bayesian aggregation of co-occurring signals across source types within defined time windows. Bias detection flagging coordinated signal amplification from sources sharing organizational affiliation or funding. Runs on existing Snowflake infrastructure."},
+  {cat:"now",n:"Power BI",a:"n",f:"Near-term analyst interface over the Snowflake signal repository. Surfaces scored candidate list for analyst review. Long-term target: purpose-built analyst dashboard with integrated LLM."},
+  {cat:"now",n:"Power Automate",a:"n",f:"Warning alerting and classification enforcement — triggers real-time alerts when tracked topics cross warning thresholds; checks classification flags before any finished product is assembled. Existing M365 tool."},
+  {cat:"once",n:"Claude Enterprise",a:"ce",once:"Claude Enterprise rolled out",f:"LLM layer for four functions: novelty and scope fit scoring; alternative analysis (red team counterargument with plausibility score); finished product drafting (house view sections, topic briefs, warning summaries); analyst interface augmentation. All LLM outputs labeled as machine-generated drafts; require analyst sign-off."},
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Tier 2 HUMINT collection mechanism once deployed — Salesforce, Teams, and Confluence connectors feed the signal repository. Complements the RSS and API collection layer for internal signals."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Full custom intelligence pipeline — configurable source weighting, Bayesian indicator scoring, bias detection, LLM synthesis, classification enforcement, and structured output to the signal repository and analyst interface. Required for Phase 3 automation."}
  ]}
 ]},
 {step:"Scoping",desc:"Proposal development",cells:[
@@ -433,7 +456,7 @@ const ROWS=[
  note:"10–12 week execution phase per the FTI sprint timeline. Milestone reviews at Gate 4 checkpoints. Copy editing alone currently takes 1–2 weeks (RASPD-47).",
  fti:null,inprog:false,tracker:null,gap:null,tools:[]},
 {col:"mvp",conf:"src_infer",title:"Claude for research drafting and synthesis",sub:"Individual researchers use Claude today",dots:["mh_lo"],
- quotes:[],note:"AI Use Case Plan — Use Case 2 (Research Assistant / Nexus) confirmed security-approved. Individual researchers can use Claude Team plan today. Confirm data privacy status with Adi before using sensitive internal materials.",
+ quotes:[],note:"AI Use Case Plan — Use Case 2 (Research Assistant / Nexus) confirmed security-approved. Individual researchers can use Claude Team plan today. Confirm data privacy status with Aditya Thakur before using sensitive internal materials.",
  fti:"ext",inprog:false,tracker:"RASPD-48 (Research Sprint Acceleration — Rhodri Preece): Key ID assigned.",gap:null,
  related:[{key:"GPT: RAS MD Sidekick",url:"https://cfainstitute.atlassian.net/wiki/spaces/AIP/pages/4561993800/GPT+Inventory+-+Top+100",desc:"Active Custom GPT built by Allison Adams. 332 messages over 10 weeks, currently rank 22. Functions as an informal research and drafting assistant for RAS — the predecessor this MVP would formalize and replace."}],
  tools:[
@@ -526,7 +549,7 @@ const ROWS=[
  tools:[
   {cat:"now",n:"Power BI + Snowflake",a:"n",f:"Best for an enterprise KPI dashboard drawing on multiple data sources."},
   {cat:"now",n:"Salesforce + RASPD-41 agent",a:"n",f:"Best for stakeholder engagement tracking once the Cross-CRM agent (RASPD-41) is built."},
-  {cat:"once",n:"Salesforce Platform AI",a:"j",once:"role-based access granted via Jira request to Adi",f:"AI layer on top of Salesforce for stakeholder engagement tracking — directly enables the RASPD-41 Cross-CRM Visibility use case."},
+  {cat:"once",n:"Salesforce Platform AI",a:"j",once:"role-based access granted via Jira request to Aditya Thakur",f:"AI layer on top of Salesforce for stakeholder engagement tracking — directly enables the RASPD-41 Cross-CRM Visibility use case."},
   {cat:"alt",n:"Sopact Sense",a:"n",f:"Best fit — internal alt avail. Closest commercial analog to the FTI Monitoring requirement: multi-source data aggregation, theory-of-change framework, persistent stakeholder identity across cycles, AI narrative analysis of open-text survey responses. Does not connect natively to Coveo, Adobe Analytics, or Salesforce without custom integration. Configured for nonprofit/foundation program measurement, not professional association influence measurement. Internal alternative: manual compilation across Coveo/Adobe Analytics, Qualtrics, and Salesforce (workaround). See FTI Bespoke Build Register."},
   {cat:"gap",n:"Integrated influence measurement layer",a:"n",f:"Best fit — gap. No tool in CFA’s current stack aggregates web analytics, practitioner feedback, and relationship signals against the four FTI influence thresholds (translation, adoption, coordination, credibility) and produces a structured output for re-ingestion into the next sprint’s Ideation step. CFA has three of the four required data sources confirmed (Coveo/Adobe Analytics, Qualtrics, Salesforce) but no integration layer connecting them. KPI definitions from RAS are a prerequisite for Phase 2 of the build. See FTI Bespoke Build Register for two-phase build spec and Macro Foresight dependency note."}
  ]},
@@ -536,8 +559,10 @@ const ROWS=[
  fti:null,inprog:false,tracker:"RASPD-38 (External Landscape Monitoring — Sandy Peters): monitors regulatory and industry response to CFA positions — closes the loop. Key ID assigned.",gap:null,
  related:[{key:"AIP-1442",url:"https://cfainstitute.atlassian.net/browse/AIP-1442",desc:"Glean Pilot Platform Foundation — In Progress. Phase 2+ Glean deployment with Salesforce and web connectors is the infrastructure backbone for the closed-loop monitoring end state — tracking how RAS outputs land externally and feeding signals back into the next sprint."}],
  tools:[
-  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Best enterprise option — tracks how RAS outputs land externally and feeds signals back into the next sprint."},
-  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Best for a custom influence intelligence loop ingesting external signals about CFA's impact."},
+  {cat:"now",n:"Snowflake",a:"n",f:"Persistent signal store for sprint-to-sprint comparison — threshold status, signal evidence, and narrative summaries stored in structured format for re-ingestion into the next sprint’s Ideation and Macro Foresight steps. The closed loop runs through the same signal repository as Steps 1 and 2."},
+  {cat:"now",n:"Power Automate",a:"n",f:"Re-ingestion routing and classification enforcement — routes structured monitoring output as new signals into the signal repository with appropriate classification flags; checks handling flags before any finished product is assembled for dissemination. Existing M365 tool."},
+  {cat:"once",n:"Glean Phase 2+",a:"g",once:"Glean production approved for enterprise connectors",f:"Tracks how RAS outputs land externally — regulatory citations, practitioner adoption signals, media coverage — and feeds those signals back into the next sprint."},
+  {cat:"once",n:"Claude Code + Anthropic API",a:"b",once:"build scoped and approved",f:"Custom influence intelligence loop — ingests external signals about CFA’s impact (citations, regulatory references, practitioner adoption indicators), evaluates against the four thresholds, generates structured measurement reports for re-ingestion."},
   {cat:"gap",n:"Closed-loop signal re-ingestion into Ideation",a:"n",f:"Best fit — gap. The end-state requirement that monitoring outputs feed directly back into the next sprint’s Ideation and Macro Foresight steps as structured signal data is not met by any current tool or planned build. Glean Phase 2+ provides the external monitoring layer; the re-ingestion and structured signal output layer requires a custom build. Dependency: Step 8 medium-term build (integration layer) must be complete before the closed-loop end state is achievable."}
  ]}
 ]}
