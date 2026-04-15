@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FTI Spectrum Matrix v115 · CFA Institute RPC · April 2026</title>
+<title>FTI Spectrum Matrix v116 · CFA Institute RPC · April 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1a1a;padding:2rem;font-size:13px}
@@ -40,10 +40,10 @@ td:hover{box-shadow:inset 0 0 0 1.5px #333}
 .fn{font-size:11px;color:#888;margin-top:10px;line-height:1.6;padding-top:10px;border-top:0.5px solid #eee}
 
 /* Popover */
-.pop{display:none;position:fixed;z-index:9999;background:#fff;border:0.5px solid #bbb;border-radius:10px;width:340px;font-size:12px;line-height:1.5;max-height:82vh;box-shadow:0 4px 20px rgba(0,0,0,0.12);overflow:hidden;display:flex;flex-direction:column}
+.pop{display:none;position:fixed;z-index:9999;background:#fff;border:0.5px solid #bbb;border-radius:10px;width:340px;font-size:12px;line-height:1.5;max-height:82vh;box-shadow:0 4px 20px rgba(0,0,0,0.12);overflow:hidden;flex-direction:column}
 .pop.show{display:flex}
 #pinner{overflow-y:scroll;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 16px;flex:1;min-height:0;touch-action:pan-y}
-.pc{float:right;cursor:pointer;color:#aaa;font-size:16px;margin-left:8px;line-height:1;flex-shrink:0}
+.pc{cursor:pointer;color:#aaa;font-size:18px;line-height:1;flex-shrink:0;padding:4px 8px;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;border-radius:4px;user-select:none;-webkit-user-select:none}
 .pop-header{padding:10px 16px 0;display:flex;justify-content:flex-end;flex-shrink:0}
 
 /* Popover blocks — all use the same neutral background; dot carries the meaning */
@@ -91,7 +91,7 @@ td:hover{box-shadow:inset 0 0 0 1.5px #333}
 </head>
 <body>
 
-<p class="mx-meta">FTI system: technology options by process step · CFA Institute RPC · April 2026 · v100</p>
+<p class="mx-meta">FTI system: technology options by process step · CFA Institute RPC · April 2026 · v116</p>
 <p class="mx-hint">Click any cell for sourcing, tools, role assignments, and tracker notes · Hover dots for labels</p>
 <p class="matrix-desc">This matrix maps AI investment options across the eight FTI sprint steps and four maturity columns. Each cell documents the current state, what is achievable at MVP, and what the medium-term and end-state look like. Tools, roles, sourcing confidence, and investment signals included throughout.</p>
 
@@ -951,8 +951,9 @@ document.getElementById("mtx").addEventListener("click",e=>{
   pop.style.top=Math.min(r.bottom+6,window.innerHeight-400)+"px";
   pop.classList.add("show");
 });
-document.getElementById("pclose").addEventListener("click",()=>pop.classList.remove("show"));
-document.addEventListener("click",e=>{if(!pop.contains(e.target)&&!e.target.closest("td[data-key]")) pop.classList.remove("show");});
+document.getElementById("pclose").addEventListener("click",e=>{e.stopPropagation();pop.classList.remove("show");});
+pop.addEventListener("click",e=>e.stopPropagation());
+document.addEventListener("click",e=>{if(pop.classList.contains("show")&&!pop.contains(e.target)&&!e.target.closest("td[data-key]")) pop.classList.remove("show");});
 </script>
 </body>
 </html>
